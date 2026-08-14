@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum BlogPostStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum BlogPostLanguage {
+  NL
+  EN
+}
+
+model BlogPost {
+  id             String           @id @default(cuid())
+  title          String
+  slug           String
+  language       BlogPostLanguage @default(NL)
+  summary        String
+  content        String
+  category       String?
+  tags           String[]         @default([])
+  authorName     String
+  authorBio      String?
+  authorImage    String?
+  coverImage     String?
+  seoTitle       String?
+  seoDescription String?
+  status         BlogPostStatus   @default(DRAFT)
+  publishedAt    DateTime?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@unique([slug, language])
+  @@index([status, language, publishedAt])
+}

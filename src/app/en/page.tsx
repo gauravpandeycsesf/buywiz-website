@@ -1,28 +1,31 @@
 import Link from "next/link";
 import Image from "next/image";
+import { getPublishedBlogPosts } from "@/lib/blog";
 
 const steps = [
   {
     number: "01",
-    title: "Identificeer het product",
+    title: "Identify the product",
     text: "Leg productinformatie vast en bepaal welke productcategorie en productregels van toepassing zijn.",
   },
   {
     number: "02",
-    title: "Bepaal de vereisten",
-    text: "Breng compliance-, documentatie-, handels- en labelvereisten samen in één workflow.",
+    title: "Determine the requirements",
+    text: "Breng compliance-, documentatie-, handels- en labelvereisten samen in one workflow.",
   },
   {
     number: "03",
-    title: "Verzamel bewijs",
+    title: "Collect evidence",
     text: "Koppel leveranciersdocumentatie en ondersteunend bewijs aan het juiste product of de juiste inkooporderregel.",
   },
   {
     number: "04",
-    title: "Beoordeel gereedheid",
+    title: "Assess readiness",
     text: "Zie direct wat gecontroleerd is, wat ontbreekt en waar aanvullende beoordeling nodig is.",
   },
 ];
+
+export const dynamic = "force-dynamic";
 
 const capabilities = [
   "Productclassificatie",
@@ -36,7 +39,9 @@ const capabilities = [
   "Inkooporderworkflow",
 ];
 
-export default function Home() {
+export default async function Home() {
+  const latestPosts = (await getPublishedBlogPosts("EN")).slice(0, 3);
+
   return (
     <main>
       <header className="site-header">
@@ -54,30 +59,28 @@ export default function Home() {
 
           <nav className="desktop-nav" aria-label="Hoofdnavigatie">
             <a href="#product">Product</a>
-            <a href="#how-it-works">Zo werkt het</a>
-            <a href="#insights">Inzichten</a>
-            <a href="#about">Over ons</a>
+            <a href="#how-it-works">How it works</a>
+            <a href="#insights">Insights</a>
+            <a href="#about">About</a>
             <a href="#contact">Contact</a>
           </nav>
 
           <div className="header-actions">
             <div className="language-switcher" aria-label="Taalkeuze">
-              <button className="language-active" type="button">
-                NL
-              </button>
+              <Link href="/">NL</Link>
               <span>/</span>
-              <a href="/en">EN</a>
+              <button className="language-active" type="button">EN</button>
             </div>
 
             <a
               className="login-link"
               href="https://app.buywiz.eu/login"
             >
-              Inloggen
+              Log in
             </a>
 
             <a className="button button-small" href="#contact">
-              Demo boeken
+              Book a demo
             </a>
           </div>
         </div>
@@ -90,30 +93,30 @@ export default function Home() {
 
             <h1>
               Product compliance,
-              <span> van vereisten tot bewijs,</span>
-              in één workflow.
+              <span> from requirements to evidence,</span>
+              in one workflow.
             </h1>
 
             <p className="hero-text">
-              Buywiz helpt importeurs, distributeurs en productteams om
-              toepasselijke productvereisten te bepalen, leveranciersdocumentatie
-              te organiseren en te zien wat gecontroleerd, ontbrekend of nog te
-              beoordelen is.
+              Buywiz helps importers, distributors and product teams
+              identify applicable product requirements, organise supplier documentation
+              and understand what is verified, missing or still requires
+              review.
             </p>
 
             <div className="hero-actions">
               <a className="button" href="#contact">
-                Demo boeken
+                Book a demo
               </a>
               <a className="button-secondary" href="#how-it-works">
-                Bekijk hoe het werkt
+                See how it works
               </a>
             </div>
 
             <div className="hero-proof">
-              <span>Productvereisten</span>
-              <span>Documentatie</span>
-              <span>Compliancegereedheid</span>
+              <span>Product requirements</span>
+              <span>Documentation</span>
+              <span>Compliance readiness</span>
             </div>
           </div>
 
@@ -177,7 +180,7 @@ export default function Home() {
               </div>
 
               <div className="readiness-footer">
-                <span>Compliancegereedheid</span>
+                <span>Compliance readiness</span>
                 <strong>75%</strong>
               </div>
             </div>
@@ -188,10 +191,10 @@ export default function Home() {
       <section className="problem-section" id="product">
         <div className="container split-section">
           <div>
-            <div className="eyebrow">Waarom Buywiz</div>
+            <div className="eyebrow">Why Buywiz</div>
             <h2>
-              Compliance-informatie hoort niet verspreid te staan over e-mail,
-              spreadsheets en losse PDF&apos;s.
+              Compliance information should not be scattered across email,
+              spreadsheets and separate PDFs.
             </h2>
           </div>
 
@@ -213,8 +216,8 @@ export default function Home() {
       <section className="steps-section" id="how-it-works">
         <div className="container">
           <div className="section-heading">
-            <div className="eyebrow">Zo werkt het</div>
-            <h2>Van productinformatie naar compliancegereedheid.</h2>
+            <div className="eyebrow">How it works</div>
+            <h2>From product information to compliance readiness.</h2>
             <p>
               Eén gestructureerde workflow voor requirements, bewijs en
               beoordeling.
@@ -236,8 +239,8 @@ export default function Home() {
       <section className="capabilities-section">
         <div className="container capabilities-grid">
           <div>
-            <div className="eyebrow">Mogelijkheden</div>
-            <h2>Alles rondom product compliance in één werkomgeving.</h2>
+            <div className="eyebrow">Capabilities</div>
+            <h2>Everything around product compliance in one workspace.</h2>
             <p>
               Buywiz verbindt productinformatie, regels, leveranciersbewijs en
               compliancebeoordelingen zonder dat teams hun workflow over
@@ -259,14 +262,14 @@ export default function Home() {
       <section className="audience-section">
         <div className="container">
           <div className="section-heading centered">
-            <div className="eyebrow">Voor wie</div>
-            <h2>Gebouwd voor teams die producten op de Europese markt brengen.</h2>
+            <div className="eyebrow">Who it is for</div>
+            <h2>Built for teams bringing products to the European market.</h2>
           </div>
 
           <div className="audience-grid">
             <article>
               <span>01</span>
-              <h3>Importeurs</h3>
+              <h3>Importers</h3>
               <p>
                 Houd grip op productvereisten en leveranciersdocumentatie vóór
                 producten op de markt worden gebracht.
@@ -282,7 +285,7 @@ export default function Home() {
             </article>
             <article>
               <span>03</span>
-              <h3>Inkoop & Productteams</h3>
+              <h3>Procurement & Product teams</h3>
               <p>
                 Maak duidelijk welke documentatie leveranciers moeten aanleveren
                 en welke producten nog opvolging nodig hebben.
@@ -296,50 +299,66 @@ export default function Home() {
         <div className="container">
           <div className="insights-heading">
             <div>
-              <div className="eyebrow">Inzichten</div>
-              <h2>Kennis over product compliance.</h2>
+              <div className="eyebrow">Insights</div>
+              <h2>Product compliance insights.</h2>
             </div>
 
-            <Link href="/blog">Alle artikelen bekijken →</Link>
+            <Link href="/en/blog">
+              View all articles →
+            </Link>
           </div>
 
-          <div className="article-grid">
-            <article className="article-card">
-              <span className="article-category">EU product compliance</span>
-              <h3>
-                Wat importeurs moeten weten over product compliance in de EU
-              </h3>
-              <p>
-                Een praktische introductie tot verantwoordelijkheden,
-                documentatie en compliancegereedheid.
-              </p>
-              <Link href="/blog">Binnenkort lezen →</Link>
-            </article>
+          {latestPosts.length > 0 ? (
+            <div className="article-grid">
+              {latestPosts.map((post) => {
+                const date =
+                  post.publishedAt ?? post.createdAt;
 
-            <article className="article-card">
-              <span className="article-category">Leveranciers</span>
-              <h3>
-                Hoe organiseer je compliance-documentatie van leveranciers?
-              </h3>
-              <p>
-                Van losse e-mails en PDF&apos;s naar een controleerbare
-                documentatiestroom.
-              </p>
-              <Link href="/blog">Binnenkort lezen →</Link>
-            </article>
+                return (
+                  <article
+                    className="article-card"
+                    key={post.id}
+                  >
+                    {post.category ? (
+                      <span className="article-category">
+                        {post.category}
+                      </span>
+                    ) : (
+                      <span className="article-category">
+                        Buywiz insight
+                      </span>
+                    )}
 
-            <article className="article-card">
-              <span className="article-category">Werkprocessen</span>
-              <h3>
-                Waarom product compliance vastloopt in Excel en e-mail
-              </h3>
+                    <span className="article-date">
+                      {new Intl.DateTimeFormat("en-GB", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      }).format(date)}
+                    </span>
+
+                    <h3>{post.title}</h3>
+
+                    <p>{post.summary}</p>
+
+                    <Link href={`/en/blog/${post.slug}`}>
+                      Read article →
+                    </Link>
+                  </article>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="blog-home-empty">
               <p>
-                De operationele risico&apos;s van versnipperde
-                compliance-informatie.
+                New product compliance insights are coming soon.
               </p>
-              <Link href="/blog">Binnenkort lezen →</Link>
-            </article>
-          </div>
+
+              <Link href="/en/blog">
+                Visit Insights →
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
@@ -367,8 +386,8 @@ export default function Home() {
       <section className="cta-section" id="contact">
         <div className="container cta-card">
           <div>
-            <div className="eyebrow eyebrow-light">Kennismaken?</div>
-            <h2>Bekijk hoe Buywiz in uw complianceproces past.</h2>
+            <div className="eyebrow eyebrow-light">Interested?</div>
+            <h2>See how Buywiz fits your compliance process.</h2>
             <p>
               Plan een korte productdemo en bespreek uw huidige workflow,
               leveranciersdocumentatie en productvereisten.
@@ -380,13 +399,13 @@ export default function Home() {
               className="button button-white"
               href="mailto:info@buywiz.eu?subject=Buywiz%20demo"
             >
-              Demo boeken
+              Book a demo
             </a>
             <a
               className="cta-login"
               href="https://app.buywiz.eu/login"
             >
-              Bestaande klant? Inloggen →
+              Existing customer? Log in →
             </a>
           </div>
         </div>
@@ -405,27 +424,27 @@ export default function Home() {
               />
             </Link>
             <p>
-              Product compliance, van vereisten tot bewijs, in één workflow.
+              Product compliance, from requirements to evidence, in one workflow.
             </p>
           </div>
 
           <div>
             <strong>Buywiz</strong>
             <a href="#product">Product</a>
-            <a href="#how-it-works">Zo werkt het</a>
-            <Link href="/blog">Inzichten</Link>
+            <a href="#how-it-works">How it works</a>
+            <Link href="/en/blog">Insights</Link>
           </div>
 
           <div>
             <strong>Bedrijf</strong>
-            <a href="#about">Over ons</a>
+            <a href="#about">About</a>
             <a href="#contact">Contact</a>
-            <a href="https://app.buywiz.eu/login">Inloggen</a>
+            <a href="https://app.buywiz.eu/login">Log in</a>
           </div>
 
           <div>
             <strong>Taal</strong>
-            <span>Nederlands</span>
+            <span>Dutch</span>
             <a href="/en">English</a>
           </div>
         </div>
