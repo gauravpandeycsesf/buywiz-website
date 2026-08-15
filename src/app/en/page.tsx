@@ -79,7 +79,7 @@ export default async function Home() {
               Log in
             </a>
 
-            <a className="button button-small" href="#contact">
+            <a className="button button-small" href="/en/demo">
               Book a demo
             </a>
           </div>
@@ -105,7 +105,7 @@ export default async function Home() {
             </p>
 
             <div className="hero-actions">
-              <a className="button" href="#contact">
+              <a className="button" href="/en/demo">
                 Book a demo
               </a>
               <a className="button-secondary" href="#how-it-works">
@@ -397,7 +397,7 @@ export default async function Home() {
           <div className="cta-actions">
             <a
               className="button button-white"
-              href="mailto:info@buywiz.eu?subject=Buywiz%20demo"
+              href="/en/demo"
             >
               Book a demo
             </a>

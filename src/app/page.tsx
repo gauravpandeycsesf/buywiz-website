@@ -76,7 +76,7 @@ export default function Home() {
               Inloggen
             </a>
 
-            <a className="button button-small" href="#contact">
+            <a className="button button-small" href="/demo">
               Demo boeken
             </a>
           </div>
@@ -102,7 +102,7 @@ export default function Home() {
             </p>
 
             <div className="hero-actions">
-              <a className="button" href="#contact">
+              <a className="button" href="/demo">
                 Demo boeken
               </a>
               <a className="button-secondary" href="#how-it-works">
@@ -378,7 +378,7 @@ export default function Home() {
           <div className="cta-actions">
             <a
               className="button button-white"
-              href="mailto:info@buywiz.eu?subject=Buywiz%20demo"
+              href="/demo"
             >
               Demo boeken
             </a>

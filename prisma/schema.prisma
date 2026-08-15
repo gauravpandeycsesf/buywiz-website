@@ -40,3 +40,19 @@ model BlogPost {
   @@unique([slug, language])
   @@index([status, language, publishedAt])
 }
+
+
+model DemoRequest {
+  id               String   @id @default(cuid())
+  name             String
+  company          String
+  email            String
+  phone            String?
+  preferredContact String   @default("EMAIL")
+  message          String?
+  language         String   @default("NL")
+  status           String   @default("NEW")
+  createdAt        DateTime @default(now())
+
+  @@index([status, createdAt])
+}
