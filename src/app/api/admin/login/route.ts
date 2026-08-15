@@ -2,6 +2,14 @@ import crypto from "crypto";
 import { NextResponse } from "next/server";
 import { adminCookie, createAdminToken } from "@/lib/admin-auth";
 
+
+function publicUrl(pathname: string) {
+  const base =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    "https://www.buywiz.eu";
+
+  return new URL(pathname, base);
+}
 function safeCompare(a: string, b: string) {
   const aBuffer = Buffer.from(a);
   const bBuffer = Buffer.from(b);
@@ -37,13 +45,13 @@ export async function POST(request: Request) {
 
   if (!validEmail || !validPassword) {
     return NextResponse.redirect(
-      new URL("/admin/login?error=1", request.url),
+      publicUrl("/admin/login?error=1"),
       303,
     );
   }
 
   const response = NextResponse.redirect(
-    new URL("/admin/blog", request.url),
+    publicUrl("/admin/blog"),
     303,
   );
 
