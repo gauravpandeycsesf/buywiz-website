@@ -33,6 +33,7 @@ export function DemoRequestForm({ language }: Props) {
           phone: data.get("phone"),
           preferredContact: data.get("preferredContact"),
           message: data.get("message"),
+          website: data.get("website"),
           language,
         }),
       });
@@ -57,6 +58,25 @@ export function DemoRequestForm({ language }: Props) {
 
   return (
     <form className="demo-form" onSubmit={submit}>
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          left: "-9999px",
+          width: 1,
+          height: 1,
+          overflow: "hidden",
+        }}
+      >
+        <label>
+          Website
+          <input
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+          />
+        </label>
+      </div>
       <label>
         {english ? "Name" : "Naam"}
         <input name="name" required autoComplete="name" />

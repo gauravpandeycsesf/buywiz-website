@@ -20,6 +20,12 @@ type RequestRow = {
   createdAt: Date;
 };
 
+type SearchParams = Promise<{
+  q?: string;
+  type?: string;
+  status?: string;
+}>;
+
 function formatDate(date: Date) {
   return new Intl.DateTimeFormat("nl-NL", {
     dateStyle: "medium",
@@ -28,21 +34,27 @@ function formatDate(date: Date) {
   }).format(date);
 }
 
-export default async function AdminRequestsPage() {
+export default async function AdminRequestsPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
   if (!(await isBlogAdmin())) {
     redirect("/admin/login");
   }
 
+  const params = await searchParams;
+
+  const query = (params.q || "").trim().toLowerCase();
+  const typeFilter = (params.type || "ALL").toUpperCase();
+  const statusFilter = (params.status || "ALL").toUpperCase();
+
   const [demoRequests, contactRequests] = await Promise.all([
     prisma.demoRequest.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
+      orderBy: { createdAt: "desc" },
     }),
     prisma.contactRequest.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
+      orderBy: { createdAt: "desc" },
     }),
   ]);
 
@@ -76,9 +88,60 @@ export default async function AdminRequestsPage() {
       createdAt: request.createdAt,
     })),
   ].sort(
-    (a, b) =>
-      b.createdAt.getTime() - a.createdAt.getTime(),
+    (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
   );
+
+  const counts = {
+    NEW: requests.filter((request) => request.status === "NEW").length,
+    IN_PROGRESS: requests.filter(
+      (request) => request.status === "IN_PROGRESS",
+    ).length,
+    CONTACTED: requests.filter(
+      (request) => request.status === "CONTACTED",
+    ).length,
+    CLOSED: requests.filter(
+      (request) => request.status === "CLOSED",
+    ).length,
+  };
+
+  const filteredRequests = requests.filter((request) => {
+    if (typeFilter !== "ALL" && request.type !== typeFilter) {
+      return false;
+    }
+
+    if (
+      statusFilter !== "ALL" &&
+      request.status !== statusFilter
+    ) {
+      return false;
+    }
+
+    if (query) {
+      const searchable = [
+        request.name,
+        request.company,
+        request.email,
+        request.phone,
+        request.subject,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      if (!searchable.includes(query)) {
+        return false;
+      }
+    }
+
+    return true;
+  });
+
+  const counterStyle = {
+    padding: "14px 18px",
+    border: "1px solid #dce3ed",
+    borderRadius: 12,
+    background: "#fff",
+  };
 
   return (
     <main
@@ -88,75 +151,173 @@ export default async function AdminRequestsPage() {
         padding: "60px 24px 100px",
       }}
     >
-      <div
+      <a
+        href="/admin/blog"
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          gap: 24,
-          marginBottom: 32,
+          color: "#526076",
+          textDecoration: "none",
+          fontSize: 14,
+          fontWeight: 600,
         }}
       >
-        <div>
-          <a
-            href="/admin/blog"
-            style={{
-              color: "#526076",
-              textDecoration: "none",
-              fontSize: 14,
-              fontWeight: 600,
-            }}
-          >
-            ← Terug naar artikelen
-          </a>
+        ← Terug naar artikelen
+      </a>
 
-          <div
-            style={{
-              marginTop: 28,
-              color: "#1769e0",
-              fontWeight: 700,
-              fontSize: 13,
-              letterSpacing: "0.08em",
-            }}
-          >
-            BUYWIZ CMS
+      <div
+        style={{
+          marginTop: 28,
+          color: "#1769e0",
+          fontWeight: 700,
+          fontSize: 13,
+          letterSpacing: "0.08em",
+        }}
+      >
+        BUYWIZ CMS
+      </div>
+
+      <h1
+        style={{
+          margin: "8px 0",
+          fontSize: 42,
+          lineHeight: 1.1,
+        }}
+      >
+        Klantaanvragen
+      </h1>
+
+      <p style={{ margin: 0, color: "#65728a", fontSize: 16 }}>
+        Demo- en contactaanvragen via de Buywiz website.
+      </p>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(auto-fit, minmax(150px, 1fr))",
+          gap: 12,
+          marginTop: 32,
+        }}
+      >
+        <div style={counterStyle}>
+          <strong>{requests.length}</strong>
+          <div style={{ color: "#65728a", marginTop: 4 }}>
+            Totaal
           </div>
-
-          <h1
-            style={{
-              margin: "8px 0 8px",
-              fontSize: 42,
-              lineHeight: 1.1,
-            }}
-          >
-            Klantaanvragen
-          </h1>
-
-          <p
-            style={{
-              margin: 0,
-              color: "#65728a",
-              fontSize: 16,
-            }}
-          >
-            Demo- en contactaanvragen via de Buywiz website.
-          </p>
         </div>
 
-        <div
-          style={{
-            padding: "14px 18px",
-            border: "1px solid #dce3ed",
-            borderRadius: 12,
-            background: "#fff",
-            fontWeight: 700,
-          }}
-        >
-          {requests.length} aanvragen
+        <div style={counterStyle}>
+          <strong>{counts.NEW}</strong>
+          <div style={{ color: "#65728a", marginTop: 4 }}>
+            Nieuw
+          </div>
+        </div>
+
+        <div style={counterStyle}>
+          <strong>{counts.IN_PROGRESS}</strong>
+          <div style={{ color: "#65728a", marginTop: 4 }}>
+            In behandeling
+          </div>
+        </div>
+
+        <div style={counterStyle}>
+          <strong>{counts.CONTACTED}</strong>
+          <div style={{ color: "#65728a", marginTop: 4 }}>
+            Contact opgenomen
+          </div>
+        </div>
+
+        <div style={counterStyle}>
+          <strong>{counts.CLOSED}</strong>
+          <div style={{ color: "#65728a", marginTop: 4 }}>
+            Afgesloten
+          </div>
         </div>
       </div>
 
-      {requests.length === 0 ? (
+      <form
+        method="get"
+        style={{
+          display: "grid",
+          gridTemplateColumns:
+            "minmax(220px, 2fr) minmax(150px, 1fr) minmax(180px, 1fr) auto",
+          gap: 12,
+          margin: "24px 0",
+          padding: 18,
+          border: "1px solid #dce3ed",
+          borderRadius: 14,
+          background: "#fff",
+        }}
+      >
+        <input
+          name="q"
+          defaultValue={params.q || ""}
+          placeholder="Zoek naam, bedrijf of e-mail..."
+          style={{
+            padding: "10px 12px",
+            border: "1px solid #dce3ed",
+            borderRadius: 8,
+          }}
+        />
+
+        <select
+          name="type"
+          defaultValue={typeFilter}
+          style={{
+            padding: "10px 12px",
+            border: "1px solid #dce3ed",
+            borderRadius: 8,
+            background: "#fff",
+          }}
+        >
+          <option value="ALL">Alle typen</option>
+          <option value="DEMO">Demo</option>
+          <option value="CONTACT">Contact</option>
+        </select>
+
+        <select
+          name="status"
+          defaultValue={statusFilter}
+          style={{
+            padding: "10px 12px",
+            border: "1px solid #dce3ed",
+            borderRadius: 8,
+            background: "#fff",
+          }}
+        >
+          <option value="ALL">Alle statussen</option>
+          <option value="NEW">Nieuw</option>
+          <option value="IN_PROGRESS">In behandeling</option>
+          <option value="CONTACTED">Contact opgenomen</option>
+          <option value="CLOSED">Afgesloten</option>
+        </select>
+
+        <button
+          type="submit"
+          style={{
+            padding: "10px 18px",
+            border: 0,
+            borderRadius: 8,
+            background: "#1769e0",
+            color: "#fff",
+            fontWeight: 700,
+            cursor: "pointer",
+          }}
+        >
+          Filter
+        </button>
+      </form>
+
+      {(query ||
+        typeFilter !== "ALL" ||
+        statusFilter !== "ALL") && (
+        <div style={{ marginBottom: 18 }}>
+          <strong>{filteredRequests.length}</strong>{" "}
+          resultaten ·{" "}
+          <a href="/admin/requests">Filters wissen</a>
+        </div>
+      )}
+
+      {filteredRequests.length === 0 ? (
         <div
           style={{
             padding: 32,
@@ -165,16 +326,11 @@ export default async function AdminRequestsPage() {
             background: "#fff",
           }}
         >
-          Nog geen aanvragen ontvangen.
+          Geen aanvragen gevonden.
         </div>
       ) : (
-        <div
-          style={{
-            display: "grid",
-            gap: 16,
-          }}
-        >
-          {requests.map((request) => (
+        <div style={{ display: "grid", gap: 16 }}>
+          {filteredRequests.map((request) => (
             <article
               key={`${request.type}-${request.id}`}
               style={{
@@ -236,12 +392,7 @@ export default async function AdminRequestsPage() {
                     </span>
                   </div>
 
-                  <h2
-                    style={{
-                      margin: 0,
-                      fontSize: 22,
-                    }}
-                  >
+                  <h2 style={{ margin: 0, fontSize: 22 }}>
                     {request.name}
                   </h2>
 
@@ -273,7 +424,7 @@ export default async function AdminRequestsPage() {
                   gridTemplateColumns:
                     "repeat(auto-fit, minmax(220px, 1fr))",
                   gap: 16,
-                  marginBottom: 18,
+                  marginBottom: request.message ? 18 : 0,
                 }}
               >
                 <div>

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getClientIp, isRateLimited } from "@/lib/form-rate-limit";
 
 export const runtime = "nodejs";
 
@@ -10,6 +11,24 @@ function text(value: unknown) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+
+    const website = text(body.website);
+
+    if (website) {
+      return NextResponse.json(
+        { ok: true },
+        { status: 201 },
+      );
+    }
+
+    const ip = getClientIp(request);
+
+    if (isRateLimited(`contact:${ip}`)) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again later." },
+        { status: 429 },
+      );
+    }
 
     const name = text(body.name);
     const company = text(body.company);
