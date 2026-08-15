@@ -2487,3 +2487,55 @@ select {
     margin-left: auto;
   }
 }
+
+/* Fix mobile navigation stacking */
+@media (max-width: 760px) {
+  .site-header {
+    position: relative;
+    z-index: 1000;
+    overflow: visible;
+  }
+
+  .header-inner {
+    overflow: visible;
+  }
+
+  .mobile-nav {
+    position: relative;
+    z-index: 1001;
+  }
+
+  .mobile-nav[open] {
+    z-index: 1002;
+  }
+
+  .mobile-nav-panel {
+    z-index: 1003;
+  }
+}
+
+/* Fix mobile navigation stacking only */
+@media (max-width: 760px) {
+  .site-header {
+    position: relative;
+    z-index: 1000;
+    overflow: visible;
+  }
+
+  .header-inner {
+    overflow: visible;
+  }
+
+  .mobile-nav {
+    position: relative;
+    z-index: 1001;
+  }
+
+  .mobile-nav[open] {
+    z-index: 1002;
+  }
+
+  .mobile-nav-panel {
+    z-index: 1003;
+  }
+}
