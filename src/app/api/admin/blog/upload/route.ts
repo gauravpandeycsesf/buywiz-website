@@ -1,6 +1,8 @@
 import { randomUUID } from "crypto";
-import { mkdir, writeFile } from "fs/promises";
-import path from "path";
+import {
+  PutObjectCommand,
+  S3Client,
+} from "@aws-sdk/client-s3";
 import { isBlogAdmin } from "@/lib/admin-auth";
 
 export const runtime = "nodejs";
@@ -13,11 +15,28 @@ const allowedTypes: Record<string, string> = {
   "image/webp": "webp",
 };
 
+const region = process.env.AWS_REGION ?? "eu-central-1";
+const bucket = process.env.BLOG_MEDIA_BUCKET;
+const cloudFrontDomain = process.env.BLOG_MEDIA_CLOUDFRONT_DOMAIN;
+
+const s3 = new S3Client({
+  region,
+});
+
 export async function POST(request: Request) {
   if (!(await isBlogAdmin())) {
     return Response.json(
       { error: "Unauthorized." },
       { status: 401 },
+    );
+  }
+
+  if (!bucket || !cloudFrontDomain) {
+    console.error("Blog media configuration is missing.");
+
+    return Response.json(
+      { error: "Media storage is not configured." },
+      { status: 500 },
     );
   }
 
@@ -47,23 +66,24 @@ export async function POST(request: Request) {
     );
   }
 
-  const directory = path.join(
-    process.cwd(),
-    "public",
-    "uploads",
-    "blog",
-  );
-
-  await mkdir(directory, { recursive: true });
-
   const filename = `${randomUUID()}.${extension}`;
-  const destination = path.join(directory, filename);
+  const key = `blog/${filename}`;
 
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  await writeFile(destination, buffer);
+  await s3.send(
+    new PutObjectCommand({
+      Bucket: bucket,
+      Key: key,
+      Body: buffer,
+      ContentType: file.type,
+      CacheControl: "public, max-age=31536000, immutable",
+    }),
+  );
+
+  const domain = cloudFrontDomain.replace(/^https?:\/\//, "").replace(/\/$/, "");
 
   return Response.json({
-    url: `/uploads/blog/${filename}`,
+    url: `https://${domain}/${key}`,
   });
 }
