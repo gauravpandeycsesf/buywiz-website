@@ -49,3 +49,5 @@ next-env.d.ts
 .windsurf/
 .elasticbeanstalk/
 public/uploads/
+
+*.zip

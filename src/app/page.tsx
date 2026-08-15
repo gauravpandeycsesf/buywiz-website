@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { getPublishedBlogPosts } from "@/lib/blog";
 
 const steps = [
   {
@@ -24,6 +25,8 @@ const steps = [
   },
 ];
 
+export const dynamic = "force-dynamic";
+
 const capabilities = [
   "Productclassificatie",
   "Compliancevereisten",
@@ -36,7 +39,9 @@ const capabilities = [
   "Inkooporderworkflow",
 ];
 
-export default function Home() {
+export default async function Home() {
+  const latestPosts = (await getPublishedBlogPosts("NL")).slice(0, 3);
+
   return (
     <main>
       <header className="site-header">
@@ -303,43 +308,47 @@ export default function Home() {
             <Link href="/blog">Alle artikelen bekijken →</Link>
           </div>
 
-          <div className="article-grid">
-            <article className="article-card">
-              <span className="article-category">EU product compliance</span>
-              <h3>
-                Wat importeurs moeten weten over product compliance in de EU
-              </h3>
-              <p>
-                Een praktische introductie tot verantwoordelijkheden,
-                documentatie en compliancegereedheid.
-              </p>
-              <Link href="/blog">Binnenkort lezen →</Link>
-            </article>
+          {latestPosts.length > 0 ? (
+            <div className="article-grid">
+              {latestPosts.map((post) => {
+                const date = post.publishedAt ?? post.createdAt;
 
-            <article className="article-card">
-              <span className="article-category">Leveranciers</span>
-              <h3>
-                Hoe organiseer je compliance-documentatie van leveranciers?
-              </h3>
-              <p>
-                Van losse e-mails en PDF&apos;s naar een controleerbare
-                documentatiestroom.
-              </p>
-              <Link href="/blog">Binnenkort lezen →</Link>
-            </article>
+                return (
+                  <article className="article-card" key={post.id}>
+                    <span className="article-category">
+                      {post.category || "Buywiz inzicht"}
+                    </span>
 
-            <article className="article-card">
-              <span className="article-category">Werkprocessen</span>
-              <h3>
-                Waarom product compliance vastloopt in Excel en e-mail
-              </h3>
+                    <span className="article-date">
+                      {new Intl.DateTimeFormat("nl-NL", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      }).format(date)}
+                    </span>
+
+                    <h3>{post.title}</h3>
+
+                    <p>{post.summary}</p>
+
+                    <Link href={`/blog/${post.slug}`}>
+                      Artikel lezen →
+                    </Link>
+                  </article>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="blog-home-empty">
               <p>
-                De operationele risico&apos;s van versnipperde
-                compliance-informatie.
+                Nieuwe inzichten over product compliance verschijnen binnenkort.
               </p>
-              <Link href="/blog">Binnenkort lezen →</Link>
-            </article>
-          </div>
+
+              <Link href="/blog">
+                Bekijk Inzichten →
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 

@@ -6,37 +6,37 @@ const steps = [
   {
     number: "01",
     title: "Identify the product",
-    text: "Leg productinformatie vast en bepaal welke productcategorie en productregels van toepassing zijn.",
+    text: "Capture product information and determine which product category and product rules apply.",
   },
   {
     number: "02",
     title: "Determine the requirements",
-    text: "Breng compliance-, documentatie-, handels- en labelvereisten samen in one workflow.",
+    text: "Bring compliance, documentation, trade and labelling requirements together in one workflow.",
   },
   {
     number: "03",
     title: "Collect evidence",
-    text: "Koppel leveranciersdocumentatie en ondersteunend bewijs aan het juiste product of de juiste inkooporderregel.",
+    text: "Link supplier documentation and supporting evidence to the correct product or purchase order line.",
   },
   {
     number: "04",
     title: "Assess readiness",
-    text: "Zie direct wat gecontroleerd is, wat ontbreekt en waar aanvullende beoordeling nodig is.",
+    text: "See immediately what has been verified, what is missing and where additional review is needed.",
   },
 ];
 
 export const dynamic = "force-dynamic";
 
 const capabilities = [
-  "Productclassificatie",
-  "Compliancevereisten",
-  "HS- en handelsinformatie",
-  "Leveranciersvereisten",
-  "Documentbeheer",
-  "Documentverwerking",
+  "Product classification",
+  "Compliance requirements",
+  "HS and trade information",
+  "Supplier requirements",
+  "Document management",
+  "Document processing",
   "Artwork & labeling",
-  "Compliancebeoordeling",
-  "Inkooporderworkflow",
+  "Compliance assessment",
+  "Purchase order workflow",
 ];
 
 export default async function Home() {
@@ -46,7 +46,7 @@ export default async function Home() {
     <main>
       <header className="site-header">
         <div className="container header-inner">
-          <Link href="/" className="brand" aria-label="Buywiz home">
+          <Link href="/en" className="brand" aria-label="Buywiz home">
             <Image
               src="/buywiz-logo.jpeg"
               alt="Buywiz Software Solutions"
@@ -57,7 +57,7 @@ export default async function Home() {
             />
           </Link>
 
-          <nav className="desktop-nav" aria-label="Hoofdnavigatie">
+          <nav className="desktop-nav" aria-label="Main navigation">
             <a href="#product">Product</a>
             <a href="#how-it-works">How it works</a>
             <a href="#insights">Insights</a>
@@ -66,7 +66,7 @@ export default async function Home() {
           </nav>
 
           <div className="header-actions">
-            <div className="language-switcher" aria-label="Taalkeuze">
+            <div className="language-switcher" aria-label="Language selection">
               <Link href="/">NL</Link>
               <span>/</span>
               <button className="language-active" type="button">EN</button>
@@ -127,28 +127,28 @@ export default async function Home() {
                   <span className="workspace-kicker">Compliance Workspace</span>
                   <strong>Product readiness</strong>
                 </div>
-                <span className="status-pill">In beoordeling</span>
+                <span className="status-pill">Under review</span>
               </div>
 
               <div className="workspace-product">
                 <div className="product-icon">P</div>
                 <div>
                   <span>Product</span>
-                  <strong>Elektrisch consumentenproduct</strong>
+                  <strong>Electrical consumer product</strong>
                 </div>
               </div>
 
               <div className="readiness-grid">
                 <div>
-                  <span>Productregels</span>
+                  <span>Product rules</span>
                   <strong>12</strong>
                 </div>
                 <div>
-                  <span>Documenten</span>
+                  <span>Documents</span>
                   <strong>8</strong>
                 </div>
                 <div>
-                  <span>Gecontroleerd</span>
+                  <span>Verified</span>
                   <strong>6</strong>
                 </div>
               </div>
@@ -157,24 +157,24 @@ export default async function Home() {
                 <div className="check-row success">
                   <span className="check-dot">✓</span>
                   <div>
-                    <strong>Technische documentatie</strong>
-                    <span>Beschikbaar en gekoppeld</span>
+                    <strong>Technical documentation</strong>
+                    <span>Available and linked</span>
                   </div>
                 </div>
 
                 <div className="check-row success">
                   <span className="check-dot">✓</span>
                   <div>
-                    <strong>EU-conformiteitsverklaring</strong>
-                    <span>Document gecontroleerd</span>
+                    <strong>EU Declaration of Conformity</strong>
+                    <span>Document verified</span>
                   </div>
                 </div>
 
                 <div className="check-row warning">
                   <span className="check-dot">!</span>
                   <div>
-                    <strong>Labelinformatie</strong>
-                    <span>Aanvullende beoordeling nodig</span>
+                    <strong>Label information</strong>
+                    <span>Additional review required</span>
                   </div>
                 </div>
               </div>
@@ -200,14 +200,14 @@ export default async function Home() {
 
           <div className="section-copy">
             <p>
-              Productteams werken vaak met leveranciersdocumentatie, wet- en
-              regelgeving, testresultaten, labels, certificaten en
-              handelsinformatie op verschillende plekken.
+              Product teams often work with supplier documentation, legislation and
+              regulations, test results, labels, certificates and
+              trade information across different places.
             </p>
             <p>
-              Buywiz brengt die informatie samen rond het product en de
-              inkooporder, zodat teams sneller kunnen bepalen wat beschikbaar
-              is en wat nog aandacht nodig heeft.
+              Buywiz brings this information together around the product and
+              purchase order, so teams can quickly determine what is available
+              and what still needs attention.
             </p>
           </div>
         </div>
@@ -219,8 +219,8 @@ export default async function Home() {
             <div className="eyebrow">How it works</div>
             <h2>From product information to compliance readiness.</h2>
             <p>
-              Eén gestructureerde workflow voor requirements, bewijs en
-              beoordeling.
+              One structured workflow for requirements, evidence and
+              assessment.
             </p>
           </div>
 
@@ -242,9 +242,9 @@ export default async function Home() {
             <div className="eyebrow">Capabilities</div>
             <h2>Everything around product compliance in one workspace.</h2>
             <p>
-              Buywiz verbindt productinformatie, regels, leveranciersbewijs en
-              compliancebeoordelingen zonder dat teams hun workflow over
-              meerdere systemen hoeven te verspreiden.
+              Buywiz connects product information, rules, supplier evidence and
+              compliance assessments without forcing teams to spread their workflow across
+              multiple systems.
             </p>
           </div>
 
@@ -271,24 +271,24 @@ export default async function Home() {
               <span>01</span>
               <h3>Importers</h3>
               <p>
-                Houd grip op productvereisten en leveranciersdocumentatie vóór
-                producten op de markt worden gebracht.
+                Stay in control of product requirements and supplier documentation before
+                products are placed on the market.
               </p>
             </article>
             <article>
               <span>02</span>
               <h3>Compliance & Quality</h3>
               <p>
-                Werk vanuit één centrale plek voor regels, bewijsstukken,
-                bevindingen en openstaande controles.
+                Work from one central place for rules, evidence,
+                findings and outstanding checks.
               </p>
             </article>
             <article>
               <span>03</span>
               <h3>Procurement & Product teams</h3>
               <p>
-                Maak duidelijk welke documentatie leveranciers moeten aanleveren
-                en welke producten nog opvolging nodig hebben.
+                Make clear which documentation suppliers need to provide
+                and which products still require follow-up.
               </p>
             </article>
           </div>
@@ -365,19 +365,19 @@ export default async function Home() {
       <section className="about-section" id="about">
         <div className="container split-section">
           <div>
-            <div className="eyebrow">Over Buywiz</div>
-            <h2>Meer duidelijkheid in complexe product compliance.</h2>
+            <div className="eyebrow">About Buywiz</div>
+            <h2>More clarity in complex product compliance.</h2>
           </div>
 
           <div className="section-copy">
             <p>
-              Buywiz is ontwikkeld om compliancewerk rond producten
-              overzichtelijker, consistenter en beter controleerbaar te maken.
+              Buywiz is designed to make product compliance work
+              clearer, more consistent and easier to audit.
             </p>
             <p>
-              Het platform ondersteunt teams bij het structureren van
-              productvereisten en bewijs. Specialistische beoordeling blijft
-              waar nodig onderdeel van het proces.
+              The platform helps teams structure
+              product requirements and evidence. Specialist review remains
+              part of the process where needed.
             </p>
           </div>
         </div>
@@ -389,8 +389,8 @@ export default async function Home() {
             <div className="eyebrow eyebrow-light">Interested?</div>
             <h2>See how Buywiz fits your compliance process.</h2>
             <p>
-              Plan een korte productdemo en bespreek uw huidige workflow,
-              leveranciersdocumentatie en productvereisten.
+              Book a short product demo and discuss your current workflow,
+              supplier documentation and product requirements.
             </p>
           </div>
 
@@ -414,7 +414,7 @@ export default async function Home() {
       <footer className="site-footer">
         <div className="container footer-grid">
           <div>
-            <Link href="/" className="brand footer-brand">
+            <Link href="/en" className="brand footer-brand">
               <Image
                 src="/buywiz-logo.jpeg"
                 alt="Buywiz Software Solutions"
@@ -436,21 +436,21 @@ export default async function Home() {
           </div>
 
           <div>
-            <strong>Bedrijf</strong>
+            <strong>Company</strong>
             <a href="#about">About</a>
             <a href="#contact">Contact</a>
             <a href="https://app.buywiz.eu/login">Log in</a>
           </div>
 
           <div>
-            <strong>Taal</strong>
-            <span>Dutch</span>
-            <a href="/en">English</a>
+            <strong>Language</strong>
+            <Link href="/">Nederlands</Link>
+            <span>English</span>
           </div>
         </div>
 
         <div className="container footer-bottom">
-          <span>© 2026 Buywiz. Alle rechten voorbehouden.</span>
+          <span>© 2026 Buywiz. All rights reserved.</span>
         </div>
       </footer>
     </main>
