@@ -56,3 +56,18 @@ model DemoRequest {
 
   @@index([status, createdAt])
 }
+
+
+model ContactRequest {
+  id        String   @id @default(cuid())
+  name      String
+  company   String?
+  email     String
+  subject   String?
+  message   String
+  language  String   @default("NL")
+  status    String   @default("NEW")
+  createdAt DateTime @default(now())
+
+  @@index([status, createdAt])
+}

@@ -62,7 +62,7 @@ export default async function Home() {
             <a href="#how-it-works">How it works</a>
             <a href="#insights">Insights</a>
             <a href="#about">About</a>
-            <a href="#contact">Contact</a>
+            <a href="/en/contact">Contact</a>
           </nav>
 
           <div className="header-actions">
@@ -438,7 +438,7 @@ export default async function Home() {
           <div>
             <strong>Company</strong>
             <a href="#about">About</a>
-            <a href="#contact">Contact</a>
+            <a href="/en/contact">Contact</a>
             <a href="https://app.buywiz.eu/login">Log in</a>
           </div>
 
