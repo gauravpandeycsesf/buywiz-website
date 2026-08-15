@@ -4,7 +4,7 @@ import Link from "next/link";
 import { DemoRequestForm } from "@/components/demo-request-form";
 
 export const metadata: Metadata = {
-  title: "Demo boeken | Buywiz",
+  title: "Demo boeken",
   description:
     "Plan een Buywiz productdemo en ontdek hoe u product compliance, leveranciersdocumentatie en bewijs in één workflow beheert.",
 };

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ContactRequestForm } from "@/components/contact-request-form";
 
 export const metadata: Metadata = {
-  title: "Contact | Buywiz",
+  title: "Contact",
   description: "Contact Buywiz about product compliance software.",
 };
 

@@ -1,6 +1,28 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { getPublishedBlogPosts } from "@/lib/blog";
+
+export const metadata: Metadata = {
+  title: "Product compliance in one workflow",
+  description:
+    "Buywiz helps importers, distributors and product teams manage product requirements, supplier documentation and compliance readiness in one workflow.",
+  alternates: {
+    canonical: "/en",
+    languages: {
+      "nl-NL": "/",
+      "en-GB": "/en",
+    },
+  },
+  openGraph: {
+    title: "Buywiz | Product compliance in one workflow",
+    description:
+      "From product requirements to supplier evidence and compliance assessment in one workflow.",
+    url: "/en",
+    locale: "en_GB",
+    type: "website",
+  },
+};
 
 const steps = [
   {
@@ -83,6 +105,22 @@ export default async function Home() {
               Book a demo
             </a>
           </div>
+
+          <details className="mobile-nav">
+            <summary aria-label="Open menu">Menu</summary>
+            <div className="mobile-nav-panel">
+              <a href="#product">Product</a>
+              <a href="#how-it-works">How it works</a>
+              <a href="#insights">Insights</a>
+              <a href="#about">About</a>
+              <a href="/en/contact">Contact</a>
+              <a href="https://app.buywiz.eu/login">Log in</a>
+              <a href="/">Nederlands</a>
+              <a className="mobile-nav-demo" href="/en/demo">
+                Book a demo
+              </a>
+            </div>
+          </details>
         </div>
       </header>
 

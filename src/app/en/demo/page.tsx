@@ -4,7 +4,7 @@ import Link from "next/link";
 import { DemoRequestForm } from "@/components/demo-request-form";
 
 export const metadata: Metadata = {
-  title: "Book a demo | Buywiz",
+  title: "Book a demo",
   description:
     "Request a Buywiz product demo and see how product compliance, supplier documentation and evidence can be managed in one workflow.",
 };
