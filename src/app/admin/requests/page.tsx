@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { isBlogAdmin } from "@/lib/admin-auth";
 import { prisma } from "@/lib/prisma";
+import RequestStatusSelect from "./request-status-select";
 
 export const dynamic = "force-dynamic";
 
@@ -219,42 +220,11 @@ export default async function AdminRequestsPage() {
                         : "Contact"}
                     </span>
 
-                    <form
-                      action={`/api/admin/requests/${
-                        request.type === "DEMO"
-                          ? "demo"
-                          : "contact"
-                      }/${request.id}`}
-                      method="post"
-                    >
-                      <select
-                        name="status"
-                        defaultValue={request.status}
-                        onChange={(event) =>
-                          event.currentTarget.form?.requestSubmit()
-                        }
-                        style={{
-                          padding: "6px 10px",
-                          borderRadius: 8,
-                          border: "1px solid #dce3ed",
-                          background: "#fff",
-                          fontSize: 13,
-                          fontWeight: 700,
-                          cursor: "pointer",
-                        }}
-                      >
-                        <option value="NEW">Nieuw</option>
-                        <option value="IN_PROGRESS">
-                          In behandeling
-                        </option>
-                        <option value="CONTACTED">
-                          Contact opgenomen
-                        </option>
-                        <option value="CLOSED">
-                          Afgesloten
-                        </option>
-                      </select>
-                    </form>
+                    <RequestStatusSelect
+                      type={request.type}
+                      id={request.id}
+                      status={request.status}
+                    />
 
                     <span
                       style={{
