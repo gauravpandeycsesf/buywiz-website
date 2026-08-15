@@ -3,6 +3,14 @@ import { NextResponse } from "next/server";
 import { isBlogAdmin } from "@/lib/admin-auth";
 import { prisma } from "@/lib/prisma";
 
+function publicUrl(pathname: string) {
+  const base =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    "https://www.buywiz.eu";
+
+  return new URL(pathname, base);
+}
+
 function cleanOptional(value: FormDataEntryValue | null) {
   const result = String(value || "").trim();
   return result || null;
@@ -25,7 +33,7 @@ export async function POST(
 ) {
   if (!(await isBlogAdmin())) {
     return NextResponse.redirect(
-      new URL("/admin/login", request.url),
+      publicUrl("/admin/login"),
       303,
     );
   }
@@ -40,7 +48,7 @@ export async function POST(
 
   if (!existingPost) {
     return NextResponse.redirect(
-      new URL("/admin/blog", request.url),
+      publicUrl("/admin/blog"),
       303,
     );
   }
@@ -53,7 +61,7 @@ export async function POST(
     revalidatePath("/admin/blog");
 
     return NextResponse.redirect(
-      new URL("/admin/blog?deleted=1", request.url),
+      publicUrl("/admin/blog?deleted=1"),
       303,
     );
   }
@@ -65,9 +73,8 @@ export async function POST(
 
   if (!title || !summary || !content || !authorName) {
     return NextResponse.redirect(
-      new URL(
+      publicUrl(
         `/admin/blog/${id}/edit?error=required`,
-        request.url,
       ),
       303,
     );
@@ -98,9 +105,8 @@ export async function POST(
 
   if (duplicate) {
     return NextResponse.redirect(
-      new URL(
+      publicUrl(
         `/admin/blog/${id}/edit?error=slug`,
-        request.url,
       ),
       303,
     );
@@ -151,9 +157,8 @@ export async function POST(
   revalidatePath(`/admin/blog/${id}/edit`);
 
   return NextResponse.redirect(
-    new URL(
+    publicUrl(
       `/admin/blog/${id}/edit?saved=1`,
-      request.url,
     ),
     303,
   );

@@ -3,6 +3,14 @@ import { NextResponse } from "next/server";
 import { isBlogAdmin } from "@/lib/admin-auth";
 import { prisma } from "@/lib/prisma";
 
+function publicUrl(pathname: string) {
+  const base =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    "https://www.buywiz.eu";
+
+  return new URL(pathname, base);
+}
+
 function cleanOptional(value: FormDataEntryValue | null) {
   const result = String(value || "").trim();
   return result || null;
@@ -20,7 +28,7 @@ function createSlug(value: string) {
 export async function POST(request: Request) {
   if (!(await isBlogAdmin())) {
     return NextResponse.redirect(
-      new URL("/admin/login", request.url),
+      publicUrl("/admin/login"),
       303,
     );
   }
@@ -46,7 +54,7 @@ export async function POST(request: Request) {
 
   if (!title || !summary || !content || !authorName) {
     return NextResponse.redirect(
-      new URL("/admin/blog/new?error=required", request.url),
+      publicUrl("/admin/blog/new?error=required"),
       303,
     );
   }
@@ -59,7 +67,7 @@ export async function POST(request: Request) {
 
   if (!slug) {
     return NextResponse.redirect(
-      new URL("/admin/blog/new?error=required", request.url),
+      publicUrl("/admin/blog/new?error=required"),
       303,
     );
   }
@@ -76,7 +84,7 @@ export async function POST(request: Request) {
 
   if (existingPost) {
     return NextResponse.redirect(
-      new URL("/admin/blog/new?error=slug", request.url),
+      publicUrl("/admin/blog/new?error=slug"),
       303,
     );
   }
@@ -124,7 +132,7 @@ export async function POST(request: Request) {
   revalidatePath("/admin/blog");
 
   return NextResponse.redirect(
-    new URL("/admin/blog?created=1", request.url),
+    publicUrl("/admin/blog?created=1"),
     303,
   );
 }
