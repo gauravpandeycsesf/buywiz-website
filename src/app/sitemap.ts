@@ -1,4 +1,6 @@
 import type { MetadataRoute } from "next";
+
+export const dynamic = "force-dynamic";
 import { getPublishedBlogPosts } from "@/lib/blog";
 
 const baseUrl = "https://www.buywiz.eu";
