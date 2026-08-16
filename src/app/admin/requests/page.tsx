@@ -410,11 +410,35 @@ export default async function AdminRequestsPage({
 
                 <div
                   style={{
-                    color: "#65728a",
-                    fontSize: 13,
+                    display: "grid",
+                    gap: 10,
+                    justifyItems: "end",
                   }}
                 >
-                  {formatDate(request.createdAt)}
+                  <div
+                    style={{
+                      color: "#65728a",
+                      fontSize: 13,
+                    }}
+                  >
+                    {formatDate(request.createdAt)}
+                  </div>
+
+                  <a
+                    href={`/admin/requests/${
+                      request.type === "DEMO"
+                        ? "demo"
+                        : "contact"
+                    }/${request.id}`}
+                    style={{
+                      color: "#1769e0",
+                      textDecoration: "none",
+                      fontWeight: 700,
+                      fontSize: 14,
+                    }}
+                  >
+                    Bekijken →
+                  </a>
                 </div>
               </div>
 

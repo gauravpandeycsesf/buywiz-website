@@ -71,3 +71,13 @@ model ContactRequest {
 
   @@index([status, createdAt])
 }
+
+model RequestNote {
+  id          String   @id @default(cuid())
+  requestType String
+  requestId   String
+  note        String
+  createdAt   DateTime @default(now())
+
+  @@index([requestType, requestId, createdAt])
+}
