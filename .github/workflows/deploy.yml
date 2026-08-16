@@ -24,9 +24,16 @@ jobs:
           role-to-assume: arn:aws:iam::040997781797:role/BuywizGitHubDeploy
           aws-region: eu-central-1
 
+      - name: Verify AWS identity
+        run: aws sts get-caller-identity
+
       - name: Deploy to Elastic Beanstalk
-        uses: aws-actions/aws-elasticbeanstalk-deploy@v1.0.0
+        uses: aws-actions/aws-elasticbeanstalk-deploy@v1
         with:
           aws-region: eu-central-1
           application-name: buywiz-website
           environment-name: Buywiz-website-env
+          create-application-if-not-exists: false
+          create-environment-if-not-exists: false
+          version-label: github-${{ github.sha }}
+          deployment-timeout: 1800
